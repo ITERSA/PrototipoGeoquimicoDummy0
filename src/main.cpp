@@ -533,8 +533,8 @@ void loop()
     ana["A13"] = getCanalAnal(A13,ads1);
 
     serializeJson(doc, USB_PORT); USB_PORT.println(); //Envia json por puerto serie (USB)
-    id (pauseBTsend==false){
-        serializeJson(doc, BT_PORT);  Serial.println();       //Envia json por bluetooth
+    if (pauseBTsend==false){
+        serializeJson(doc, BT_PORT);  BT_PORT.println();       //Envia json por bluetooth
     }
     //String trama = generateTramaData( doc, true );          //Envia trama por puerto bluetooth (true imprime TIME, false No
     //USB_PORT.println(trama);                                //Envia trama por puerto serie (USB)
