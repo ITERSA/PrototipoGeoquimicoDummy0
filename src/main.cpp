@@ -317,7 +317,7 @@ CalculoMath calculosCO2;
 //CalculoMath calculosCO2ana;
 //CalculoMath calculosH20ana;
 //----------------------------------------------FIN CALCULOS MATEMATICOS------------------------------------------------
-
+boolean pauseBTsend=true;
 //----------------------------------------------MÉTODOS Y FUNCIONES -----------------------------------------------
 void inicializaDisplay();
 void setupBotones();
@@ -533,7 +533,9 @@ void loop()
     ana["A13"] = getCanalAnal(A13,ads1);
 
     serializeJson(doc, USB_PORT); USB_PORT.println(); //Envia json por puerto serie (USB)
-    serializeJson(doc, BT_PORT);  Serial.println();       //Envia json por bluetooth
+    id (pauseBTsend==false){
+        serializeJson(doc, BT_PORT);  Serial.println();       //Envia json por bluetooth
+    }
     //String trama = generateTramaData( doc, true );          //Envia trama por puerto bluetooth (true imprime TIME, false No
     //USB_PORT.println(trama);                                //Envia trama por puerto serie (USB)
     //BT_PORT.println(trama);
@@ -1401,6 +1403,7 @@ void serialEvent2() {
         saveSD = false;
         //ficheroDatos.close();
         //USB_PORT.println(F("Fichero Cerrado:"));
+        pauseBTsend=true;
         break;
       case '1':
         digitalWrite(RELE_BOMBA, LOW);
@@ -1412,6 +1415,7 @@ void serialEvent2() {
         if (sdAvailable) {
           //nuevoFichero();
         }
+        pauseBTsend=false;
         break;
     }
   }
